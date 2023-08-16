@@ -1,3 +1,7 @@
 spring:
-    profile:
-        active: dev
+    profiles:
+        active: @spring.profiles.active@
+
+application:
+    title: Costomer Manager
+    version: 1.0

@@ -4,6 +4,7 @@ import static java.util.Map.of;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -35,7 +36,7 @@ public class RoleRepositoryImpl implements RoleRepository<Role> {
         log.info("Adding role {} to user id: {}", roleName, userId);
         try {
             Role role = jdbc.queryForObject(SELECT_ROLE_BY_NAME_QUERY, Map.of("name", roleName), new RoleRowMapper());
-            jdbc.update(INSERT_ROLE_TO_USER, of("userId", userId, "roleId", role.getId()));
+            jdbc.update(INSERT_ROLE_TO_USER, of("userId", userId, "roleId", Objects.requireNonNull(role).getId()));
 
         } catch (EmptyResultDataAccessException exception) {
             throw new ApiException("No role name found by name" + ROLE_USER.name());

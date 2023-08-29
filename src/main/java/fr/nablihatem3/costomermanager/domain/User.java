@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class User {
     @NotEmpty(message = "Last name cannot be empty")
     private String lastName;
     @NotEmpty(message = "Email name cannot be empty")
+    @Email(message = "Invalide email. Pelase enter a valid email address")
     private String email;
     @NotEmpty(message = "Password cannot be empty")
     private String password;

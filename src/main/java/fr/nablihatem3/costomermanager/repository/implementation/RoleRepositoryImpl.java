@@ -1,11 +1,10 @@
 package fr.nablihatem3.costomermanager.repository.implementation;
 
 import static java.util.Map.of;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Objects;
-
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -36,7 +35,7 @@ public class RoleRepositoryImpl implements RoleRepository<Role> {
         log.info("Adding role {} to user id: {}", roleName, userId);
         try {
             Role role = jdbc.queryForObject(SELECT_ROLE_BY_NAME_QUERY, Map.of("name", roleName), new RoleRowMapper());
-            jdbc.update(INSERT_ROLE_TO_USER, of("userId", userId, "roleId", Objects.requireNonNull(role).getId()));
+            jdbc.update(INSERT_ROLE_TO_USER, of("userId", userId, "roleId", requireNonNull(role).getId()));
 
         } catch (EmptyResultDataAccessException exception) {
             throw new ApiException("No role name found by name" + ROLE_USER.name());
@@ -78,8 +77,16 @@ public class RoleRepositoryImpl implements RoleRepository<Role> {
 
     @Override
     public Role getRoleByUserId(Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRoleByUserId'");
+       log.info("Adding role for user id: {}", userId);
+       try {
+            Role role = jdbc.queryForObject(SELECT_ROLE_BY_ID_QUERY, of("id", userId), new RoleRowMapper());
+            return role;
+       } catch (EmptyResultDataAccessException exception) {
+            throw new ApiException("No rolie found by name" + ROLE_USER.name());
+       } catch (Exception exception) {
+        log.error(exception.getMessage());
+            throw new ApiException("An error occured. Please try again.");
+       }
     }
 
     @Override

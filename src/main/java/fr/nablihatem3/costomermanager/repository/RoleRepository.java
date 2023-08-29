@@ -4,7 +4,11 @@ import java.util.Collection;
 
 import fr.nablihatem3.costomermanager.domain.Role;
 
-
+/**
+ * @author Hatem NABLI
+ * @version 1.0
+ * @since 10/08/2023
+ */
 public interface RoleRepository<T extends Role> {
        /* CRUD : Operations de base */
     T create(T data);

@@ -2,6 +2,7 @@ package fr.nablihatem3.costomermanager.repository;
 
 import java.util.Collection;
 import fr.nablihatem3.costomermanager.domain.User;
+import fr.nablihatem3.costomermanager.dto.UserDTO;
 
 /**
  * @author Hatem NABLI
@@ -15,7 +16,10 @@ public interface UserRepository<T extends User> {
     T get(Long id);
     T update(T data);
     Boolean delete(long id);
+    User getUserByEmail(String email);
+    void sendVerificationCode(UserDTO userDTO);
 
+    User verifyCode(String email, String code);
     /* More Complex Operations */
 }
 

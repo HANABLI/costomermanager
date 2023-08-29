@@ -2,7 +2,7 @@ package fr.nablihatem3.costomermanager.dto;
 
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import lombok.*;
 
 /**
  * @author Hatem NABLI
@@ -10,7 +10,10 @@ import lombok.Data;
  * @since 13/08/2023
  */
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     private Long id;
     private String firstName;  
@@ -25,4 +28,6 @@ public class UserDTO {
     private boolean isNotLocked;
     private boolean isUsingMfa;
     private LocalDateTime createdAt;
+    private String roleName;
+    private String permissions;
 }

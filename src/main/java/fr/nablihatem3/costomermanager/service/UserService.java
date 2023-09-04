@@ -2,7 +2,6 @@ package fr.nablihatem3.costomermanager.service;
 
 import fr.nablihatem3.costomermanager.domain.User;
 import fr.nablihatem3.costomermanager.dto.UserDTO;
-import jakarta.validation.constraints.Email;
 
 /**
  * @author Hatem NABLI
@@ -15,7 +14,15 @@ public interface UserService {
 
     public UserDTO getUserByEmail(String user);
 
-    public void sendVerificvationCode(UserDTO userDTO);
+    public void sendVerificationCode(UserDTO userDTO);
 
     UserDTO verifyCode(String email, String code);
+
+    void resetPassword(String email);
+
+    UserDTO verifyPasswordKey(String key);
+
+    void renewPassword(String key, String password, String confirmPassword);
+
+    UserDTO verifyAccountUrl(String key);
 }

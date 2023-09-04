@@ -9,9 +9,11 @@ import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import fr.nablihatem3.costomermanager.domain.UserPrincipal;
+import fr.nablihatem3.costomermanager.service.UserService;
 import io.jsonwebtoken.lang.Collections;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.AssertTrue;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,8 +36,10 @@ import static org.apache.commons.lang3.stream.Streams.stream;
  * @since 28/08/2023
  */
 @Component
+@RequiredArgsConstructor
 public class TokenProvider {
 
+    private final UserService userService;
     private static final String GET_MY_LLC = "GET_MY_LLC";
     private static final String CUSTOMER_MANAGEMENT_SERVICE = "CUSTOMER_MANAGEMENT_SERVICE";
     private static final String AUTHORITIES = "authorities";
@@ -93,7 +97,7 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(String email, List<GrantedAuthority> authorities, HttpServletRequest servletRequest) {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userService.getUserByEmail(email), null, authorities);
         usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(servletRequest));
         return usernamePasswordAuthenticationToken;
     }

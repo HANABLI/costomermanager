@@ -1,11 +1,14 @@
 package fr.nablihatem3.costomermanager.domain;
 
+import fr.nablihatem3.costomermanager.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+
+import static fr.nablihatem3.costomermanager.dtomapper.UserDTOMapper.fromUser;
 import static java.util.stream.Collectors.toList;
 import static java.util.Arrays.stream;
 
@@ -18,11 +21,11 @@ import static java.util.Arrays.stream;
 public class UserPrincipal implements UserDetails {
 
     private final User user;
-    private final String permissions;
+    private final Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return stream(permissions.split(",".trim())).map(SimpleGrantedAuthority::new).collect(toList());
+        return stream(this.role.getPermission().split(",".trim())).map(SimpleGrantedAuthority::new).collect(toList());
     }
 
     @Override
@@ -52,7 +55,11 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.user.isEnabled();
+    }
+
+    public UserDTO getUser() {
+        return fromUser(this.user, role);
     }
     
 }
